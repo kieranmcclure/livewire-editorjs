@@ -87,7 +87,7 @@ class EditorJS extends Component
             $this->uploadDisk
         );
 
-        $this->dispatchBrowserEvent($eventName, [
+        $this->dispatch($eventName, [
             'url' => Storage::disk($this->uploadDisk)->url($storedFileName),
         ]);
     }
@@ -104,7 +104,7 @@ class EditorJS extends Component
 
     public function save()
     {
-        $this->emitUp("editorjs-save:{$this->editorId}", $this->data);
+        $this->dispatchUp("editorjs-save:{$this->editorId}", $this->data);
     }
 
     public function render()

@@ -102,7 +102,7 @@ class BaseComponentTest extends TestCase
 
         $component
             ->call('save')
-            ->assertEmitted('editorjs-save:testEditor');
+            ->assertDispatched('editorjs-save:testEditor');
     }
 
     /** @test */
@@ -113,13 +113,13 @@ class BaseComponentTest extends TestCase
 
         $component
             ->call('save')
-            ->assertEmitted('editorjs-save:testEditor', [])
-            ->assertNotEmitted('editorjs-save:testEditor2');
+            ->assertDispatched('editorjs-save:testEditor', [])
+            ->assertNotDispatched('editorjs-save:testEditor2');
 
         $anotherComponent
             ->call('save')
-            ->assertEmitted('editorjs-save:testEditor2', [])
-            ->assertNotEmitted('editorjs-save:testEditor');
+            ->assertDispatched('editorjs-save:testEditor2', [])
+            ->assertNotDispatched('editorjs-save:testEditor');
     }
 
     /** @test */
