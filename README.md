@@ -195,7 +195,7 @@ Default: '' (set through the corresponding config option `default_placeholder`)
 
 The Editor is configured to save changes to the server using its built in `onChange` callback.  
 In this callback the editor will sync its state with Livewire.  
-When this happens, Livewire will `emitUp` a save event:  
+When this happens, Livewire will `dispatch` a save event:  
 
 `editorjs-save:editorId`
 
@@ -204,12 +204,15 @@ With this, you can listen for the event within your Livewire Page/Component you 
 in order to save changes to your models.
 
 ```php 
-protected $listeners = ['editorjs-save:editorId' => 'saveEditorState'];
 
+use Livewire\Attributes\On;
+
+#[On('editorjs-save:myEditor')]
 public function saveEditorState($editorJsonData)
 {
     $this->model->data = $editorJsonData;
 }
+
 ```
 
 ### Config
