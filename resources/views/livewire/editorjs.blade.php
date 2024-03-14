@@ -4,6 +4,7 @@
     class="{{ $class }}"
     style="{{ $style }}"
     wire:ignore
+    wire:key='{{ $editorId }}'
 >
     <div id="{{ $editorId }}"></div>
 </div>
