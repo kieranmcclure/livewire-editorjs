@@ -195,6 +195,32 @@ window.editorInstance = function (
                 onReady: () => {
                     new Undo({ editor: this.instance });
                     new DragDrop(this.instance);
+
+                    // Setup onBlur event listener for the editor container
+                    const editorContainer = document.getElementById(editorId);
+                    editorContainer.addEventListener(
+                        "blur",
+                        (event) => {
+                            // Check if the blur event is not just a focus shift within the editor itself
+                            if (
+                                !editorContainer.contains(event.relatedTarget)
+                            ) {
+                                this.instance
+                                    .save()
+                                    .then((outputData) => {
+                                        this.$wire.set(
+                                            dataProperty,
+                                            outputData
+                                        );
+                                        this.$wire.call("save");
+                                    })
+                                    .catch((error) => {
+                                        console.log("Saving failed: ", error);
+                                    });
+                            }
+                        },
+                        true
+                    ); // Use capture phase to ensure the blur event is captured as it bubbles up
                 },
                 holder: editorId,
                 readOnly,
@@ -203,21 +229,7 @@ window.editorInstance = function (
                 tools: {
                     ...editorJsTools,
                 },
-
                 data: this.data,
-
-                onBlur: () => {
-                    this.instance
-                        .save()
-                        .then((outputData) => {
-                            this.$wire.set(dataProperty, outputData);
-
-                            this.$wire.call("save");
-                        })
-                        .catch((error) => {
-                            console.log("Saving failed: ", error);
-                        });
-                },
             });
         },
     };
