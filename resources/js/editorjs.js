@@ -196,32 +196,30 @@ window.editorInstance = function (
                     new Undo({ editor: this.instance });
                     new DragDrop(this.instance);
 
-                    // Setup onBlur event listener for the editor container
+                    // Setup focusout event listener for the editor container
                     const editorContainer = document.getElementById(editorId);
+                    const handleFocusOut = debounce((event) => {
+                        // Save logic here
+                        if (!editorContainer.contains(event.relatedTarget)) {
+                            console.log("Debounced save...");
+                            this.instance
+                                .save()
+                                .then((outputData) => {
+                                    this.$wire.set(dataProperty, outputData);
+                                    this.$wire.call("save");
+                                })
+                                .catch((error) => {
+                                    console.error("Saving failed: ", error);
+                                });
+                        }
+                    }, 500); // Adjust the 500ms delay as needed
+
+                    // Use capture phase to ensure the focusout event is captured as it bubbles up
                     editorContainer.addEventListener(
                         "focusout",
-                        (event) => {
-                            // Check if the blur event is not just a focus shift within the editor itself
-                            if (
-                                !editorContainer.contains(event.relatedTarget)
-                            ) {
-                                console.log("Saving...");
-                                this.instance
-                                    .save()
-                                    .then((outputData) => {
-                                        this.$wire.set(
-                                            dataProperty,
-                                            outputData
-                                        );
-                                        this.$wire.call("save");
-                                    })
-                                    .catch((error) => {
-                                        console.log("Saving failed: ", error);
-                                    });
-                            }
-                        },
+                        handleFocusOut,
                         true
-                    ); // Use capture phase to ensure the blur event is captured as it bubbles up
+                    );
                 },
                 holder: editorId,
                 readOnly,
@@ -235,3 +233,19 @@ window.editorInstance = function (
         },
     };
 };
+
+function debounce(func, wait, immediate) {
+    let timeout;
+    return function () {
+        let context = this,
+            args = arguments;
+        let later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        let callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+}
