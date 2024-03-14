@@ -205,7 +205,7 @@ window.editorInstance = function (
                             if (
                                 !editorContainer.contains(event.relatedTarget)
                             ) {
-                                // console.log("Saving...");
+                                console.log("Saving...");
                                 this.instance
                                     .save()
                                     .then((outputData) => {
