@@ -220,6 +220,7 @@ window.editorInstance = function (
                                 document.getElementById(editorId);
                             if (!editorContainer.contains(event.target)) {
                                 debouncedSave();
+                                alert("triggered");
                             }
                         },
                         true
