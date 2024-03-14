@@ -210,7 +210,7 @@ window.editorInstance = function (
                             });
                     };
 
-                    const debouncedSave = debounce(saveContent, 500); // Adjust the 500ms delay as needed
+                    const debouncedSave = debounce(saveContent, 5000); // Adjust the 500ms delay as needed
 
                     // Enhanced focus out detection
                     document.addEventListener(
