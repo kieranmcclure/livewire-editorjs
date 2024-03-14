@@ -196,30 +196,37 @@ window.editorInstance = function (
                     new Undo({ editor: this.instance });
                     new DragDrop(this.instance);
 
-                    // Setup focusout event listener for the editor container
-                    const editorContainer = document.getElementById(editorId);
-                    const handleFocusOut = debounce((event) => {
-                        // Save logic here
-                        if (!editorContainer.contains(event.relatedTarget)) {
-                            console.log("Debounced save...");
-                            this.instance
-                                .save()
-                                .then((outputData) => {
-                                    this.$wire.set(dataProperty, outputData);
-                                    this.$wire.call("save");
-                                })
-                                .catch((error) => {
-                                    console.error("Saving failed: ", error);
-                                });
-                        }
-                    }, 2000); // Adjust the 500ms delay as needed
+                    // Create a debounced function for saving the editor's content
+                    const saveContent = () => {
+                        console.log("Debounced save...");
+                        this.instance
+                            .save()
+                            .then((outputData) => {
+                                this.$wire.set(dataProperty, outputData);
+                                this.$wire.call("save");
+                            })
+                            .catch((error) => {
+                                console.error("Saving failed: ", error);
+                            });
+                    };
 
-                    // Use capture phase to ensure the focusout event is captured as it bubbles up
-                    editorContainer.addEventListener(
-                        "focusout",
-                        handleFocusOut,
+                    const debouncedSave = debounce(saveContent, 500); // Adjust the 500ms delay as needed
+
+                    // Enhanced focus out detection
+                    document.addEventListener(
+                        "click",
+                        (event) => {
+                            const editorContainer =
+                                document.getElementById(editorId);
+                            if (!editorContainer.contains(event.target)) {
+                                debouncedSave();
+                            }
+                        },
                         true
                     );
+
+                    // Optionally, handle the tab key or other specific cases
+                    // This can be done by listening for keyboard events and determining if focus has moved outside
                 },
                 holder: editorId,
                 readOnly,
