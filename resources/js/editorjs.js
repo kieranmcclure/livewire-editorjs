@@ -212,7 +212,7 @@ window.editorInstance = function (
                                     console.error("Saving failed: ", error);
                                 });
                         }
-                    }, 500); // Adjust the 500ms delay as needed
+                    }, 2000); // Adjust the 500ms delay as needed
 
                     // Use capture phase to ensure the focusout event is captured as it bubbles up
                     editorContainer.addEventListener(
