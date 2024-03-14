@@ -199,12 +199,13 @@ window.editorInstance = function (
                     // Setup onBlur event listener for the editor container
                     const editorContainer = document.getElementById(editorId);
                     editorContainer.addEventListener(
-                        "blur",
+                        "focusout",
                         (event) => {
                             // Check if the blur event is not just a focus shift within the editor itself
                             if (
                                 !editorContainer.contains(event.relatedTarget)
                             ) {
+                                // console.log("Saving...");
                                 this.instance
                                     .save()
                                     .then((outputData) => {
