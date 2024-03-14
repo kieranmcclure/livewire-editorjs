@@ -214,7 +214,7 @@ window.editorInstance = function (
 
                     // Enhanced focus out detection
                     document.addEventListener(
-                        "click",
+                        "focusout",
                         (event) => {
                             const editorContainer =
                                 document.getElementById(editorId);
