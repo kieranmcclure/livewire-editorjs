@@ -228,7 +228,8 @@ window.editorInstance = function (
 
                     //Update the editor's content on Livewire event
                     document.addEventListener("contentUpdated", (event) => {
-                        console.log("here");
+                        console.log("here editorjs.js 1 ");
+                        console.log(event.detail);
                         this.updateContent(event.detail);
                     });
 
