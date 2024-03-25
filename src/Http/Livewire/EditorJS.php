@@ -33,6 +33,7 @@ class EditorJS extends Component
 
     public $logLevel;
 
+    protected $listeners = ['updateEditorContent' => 'updateContent'];
 
 
     public function mount(
@@ -102,6 +103,11 @@ class EditorJS extends Component
         Storage::disk($this->downloadDisk)->put($name, $content);
 
         return Storage::disk($this->downloadDisk)->url($name);
+    }
+
+    public function updateContent($content)
+    {
+        $this->dispatch('contentUpdated', $content);
     }
 
     public function save()
