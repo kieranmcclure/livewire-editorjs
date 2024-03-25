@@ -226,6 +226,11 @@ window.editorInstance = function (
                         true
                     );
 
+                    //Update the editor's content on Livewire event
+                    document.addEventListener("contentUpdated", (event) => {
+                        this.updateContent(event.detail);
+                    });
+
                     // Optionally, handle the tab key or other specific cases
                     // This can be done by listening for keyboard events and determining if focus has moved outside
                 },
