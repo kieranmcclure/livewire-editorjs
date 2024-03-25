@@ -243,7 +243,7 @@ window.editorInstance = function (
         updateContent(newContent) {
             this.data = newContent;
             if (this.instance) {
-                this.instance.render(newContent);
+                this.instance.blocks.render(newContent);
             }
         },
     };
