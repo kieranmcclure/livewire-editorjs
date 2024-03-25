@@ -33,6 +33,10 @@ class EditorJS extends Component
 
     public $logLevel;
 
+    protected $listeners = [
+        'refreshEditorJS' => '$refresh',
+    ];
+
     public function mount(
         $editorId,
         $value = [],
@@ -82,7 +86,7 @@ class EditorJS extends Component
 
         // When no file name is passed, we use the hashName of the tmp file
         $storedFileName = $tmpFile->storeAs(
-            '/'.$this->imagesPath,
+            '/' . $this->imagesPath,
             $fileName ?? $tmpFile->hashName(),
             $this->uploadDisk
         );
