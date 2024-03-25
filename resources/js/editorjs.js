@@ -244,6 +244,7 @@ window.editorInstance = function (
             this.data = newContent;
             if (this.instance) {
                 this.instance.blocks.render(newContent);
+                console.log("Content Updated - editorjs.js");
             }
         },
     };
