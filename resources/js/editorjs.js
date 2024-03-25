@@ -241,10 +241,9 @@ window.editorInstance = function (
         },
 
         updateContent(newContent) {
-            this.data = newContent;
             if (this.instance) {
-                this.instance.blocks.render(newContent);
-                console.log("Content Updated - editorjs.js");
+                this.instance.blocks.clear(); // Clear existing content
+                this.instance.render(newContent); // Re-render with new content
             }
         },
     };

@@ -33,9 +33,7 @@ class EditorJS extends Component
 
     public $logLevel;
 
-    protected $listeners = [
-        'refreshEditorJS' => '$refresh',
-    ];
+
 
     public function mount(
         $editorId,
