@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\On;
+
 
 class EditorJS extends Component
 {
@@ -105,6 +107,7 @@ class EditorJS extends Component
         return Storage::disk($this->downloadDisk)->url($name);
     }
 
+    #[On('updateEditorContent')]
     public function updateContent($content)
     {
         $this->dispatch('contentUpdated', $content);
