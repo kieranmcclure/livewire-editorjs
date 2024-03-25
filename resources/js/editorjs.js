@@ -239,6 +239,13 @@ window.editorInstance = function (
                 data: this.data,
             });
         },
+
+        updateContent(newContent) {
+            this.data = newContent;
+            if (this.instance) {
+                this.instance.render(newContent);
+            }
+        },
     };
 };
 
